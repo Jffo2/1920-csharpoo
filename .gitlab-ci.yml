@@ -2,6 +2,6 @@ job1:
    tags:
       - CSharp
    script:
-      - "TestProject"
+      - "CSharpOOTest"
    only:
       - master
