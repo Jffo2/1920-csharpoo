@@ -1,0 +1,11 @@
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\bin\Debug\netcoreapp2.2\TestProject.deps.json
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\bin\Debug\netcoreapp2.2\TestProject.runtimeconfig.json
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\bin\Debug\netcoreapp2.2\TestProject.runtimeconfig.dev.json
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\bin\Debug\netcoreapp2.2\TestProject.dll
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\bin\Debug\netcoreapp2.2\TestProject.pdb
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\obj\Debug\netcoreapp2.2\TestProject.csprojAssemblyReference.cache
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\obj\Debug\netcoreapp2.2\TestProject.csproj.CoreCompileInputs.cache
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\obj\Debug\netcoreapp2.2\TestProject.AssemblyInfoInputs.cache
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\obj\Debug\netcoreapp2.2\TestProject.AssemblyInfo.cs
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\obj\Debug\netcoreapp2.2\TestProject.dll
+H:\CSharpOO\1920-csharpoo-jornschampheleer2\Blok1\TestProject\TestProject\obj\Debug\netcoreapp2.2\TestProject.pdb
