@@ -6,9 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Tetris">
-      <HintPath>..\Tetris\bin\Debug\netcoreapp2.1\Tetris.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Tetris\Tetris.csproj" />
   </ItemGroup>
 
 </Project>
