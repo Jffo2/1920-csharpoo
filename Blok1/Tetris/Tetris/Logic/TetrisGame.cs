@@ -21,7 +21,7 @@ public class TetrisGame
         this.highscoreFetcher = highscoreFetcher;
         this.tetrisDrawer = tetrisDrawer;
         this.inputManager = inputManager;
-        inputManager.KeyPressed += OnKeyDown;
+        inputManager.KeyPressed += OnKeyPressed;
         Rows = rows;
         Columns = columns;
         // TODO: Check rows and columns and if invalid throw an exception
@@ -30,7 +30,7 @@ public class TetrisGame
         gameLoop.Interval = INTERVAL;
 	}
 
-    public void OnKeyDown(object sender, KeyEventArgs args)
+    public void OnKeyPressed(object sender, KeyEventArgs args)
     {
         Console.WriteLine(args.Key.ToString());
     }
@@ -49,6 +49,6 @@ public class TetrisGame
     public void OnTimerTick(object sender, ElapsedEventArgs e)
     {
         inputManager.CheckInput();
-        tetrisDrawer.Draw(gameBoard, Rows, Columns, gameBoard, null);
+        tetrisDrawer.Draw(gameBoard, new Tetris.Logic.Block(5,2));
     }
 }
