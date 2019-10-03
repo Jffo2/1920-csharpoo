@@ -1,4 +1,5 @@
 ﻿using System;
+using TetrisConsole.Interfaces;
 
 namespace TetrisConsole
 {
@@ -6,7 +7,9 @@ namespace TetrisConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            TetrisGame game = new TetrisGame(null, new TetrisDrawerConsole(), new ConsoleInputManager(), 8, 20);
+            game.Start();
+            while(1==1) { System.Threading.Thread.Sleep(100); }
         }
     }
 }
