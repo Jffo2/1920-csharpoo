@@ -10,7 +10,7 @@ public class TetrisGame
     private readonly IInputManager inputManager;
     private readonly bool[,] gameBoard;
     private Timer gameLoop;
-    private const int INTERVAL = 500;
+    private const int INTERVAL = 400;
 
     public int Rows { get; }
     public int Columns { get; }

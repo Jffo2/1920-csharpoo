@@ -15,8 +15,6 @@ namespace TetrisForm
         public Form1()
         {
             InitializeComponent();
-            
         }
-
     }
 }
