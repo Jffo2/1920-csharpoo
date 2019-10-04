@@ -10,6 +10,7 @@ public class TetrisGame
     private readonly IInputManager inputManager;
     private readonly bool[,] gameBoard;
     private Timer gameLoop;
+    private Timer inputTimer;
     private const int INTERVAL = 400;
 
     public int Rows { get; }
@@ -28,11 +29,13 @@ public class TetrisGame
         gameBoard = new bool[rows,columns];
         gameLoop = new Timer();
         gameLoop.Interval = INTERVAL;
+        inputTimer = new Timer();
+        inputTimer.Interval = 1;
 	}
 
     public void OnKeyPressed(object sender, KeyEventArgs args)
     {
-        Console.WriteLine(args.Key.ToString());
+        System.Diagnostics.Debug.WriteLine(args.Key.ToString());
     }
 
     public List<HighscoreModel> LoadHighscores()
@@ -44,11 +47,17 @@ public class TetrisGame
     {
         gameLoop.Elapsed += new ElapsedEventHandler(OnTimerTick);
         gameLoop.Start();
+        inputTimer.Elapsed += new ElapsedEventHandler(OnInputTimerTick);
+        inputTimer.Start();
+    }
+
+    public void OnInputTimerTick(object sender, ElapsedEventArgs e)
+    {
+        inputManager.CheckInput();
     }
 
     public void OnTimerTick(object sender, ElapsedEventArgs e)
     {
-        inputManager.CheckInput();
         tetrisDrawer.Draw(gameBoard, new Tetris.Logic.Block(5,2));
     }
 }
