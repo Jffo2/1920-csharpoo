@@ -4,5 +4,5 @@ using Tetris.Logic;
 
 public interface ITetrisDrawer
 {
-    void Draw(bool[,] gameBoard, Block block);
+    void Draw(bool[,] gameBoard, Block block, Block NextBlock);
 }

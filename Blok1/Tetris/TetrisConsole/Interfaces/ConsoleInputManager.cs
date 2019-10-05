@@ -15,26 +15,26 @@ namespace TetrisConsole.Interfaces
         {
             if (Console.KeyAvailable)
             {
-                ConsoleKeyInfo k = Console.ReadKey();
+                ConsoleKeyInfo k = Console.ReadKey(true);
                 if (k.Key==ConsoleKey.UpArrow)
                 {
-                    KeyPressed.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.RotateL));
+                    KeyPressed?.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.RotateL));
                 }
                 else if (k.Key==ConsoleKey.DownArrow)
                 {
-                    KeyPressed.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.Down));
+                    KeyPressed?.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.Down));
                 }
                 else if (k.Key == ConsoleKey.LeftArrow)
                 {
-                    KeyPressed.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.Left));
+                    KeyPressed?.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.Left));
                 }
                 else if (k.Key == ConsoleKey.RightArrow)
                 {
-                    KeyPressed.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.Right));
+                    KeyPressed?.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.Right));
                 }
                 else if (k.Key==ConsoleKey.Escape)
                 {
-                    KeyPressed.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.Exit));
+                    KeyPressed?.Invoke(this, new KeyEventArgs(KeyEventArgs.Keys.Exit));
                 }
             }
         }

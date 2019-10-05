@@ -9,7 +9,7 @@ namespace TetrisConsole
         {
             TetrisGame game = new TetrisGame(null, new TetrisDrawerConsole(20,10,null), new ConsoleInputManager(), 10, 20);
             game.Start();
-            while(1==1) { System.Threading.Thread.Sleep(100); }
+            while(1==1) { System.Threading.Thread.Sleep(1); }
         }
     }
 }
