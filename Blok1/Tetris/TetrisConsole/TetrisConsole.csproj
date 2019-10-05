@@ -9,4 +9,7 @@
     <ProjectReference Include="..\Tetris\Tetris.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="highscores.txt" />
+  </ItemGroup>
 </Project>

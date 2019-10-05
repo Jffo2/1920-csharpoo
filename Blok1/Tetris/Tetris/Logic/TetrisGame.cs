@@ -12,10 +12,15 @@ public class TetrisGame
     private readonly ITetrisDrawer tetrisDrawer;
     private readonly IInputManager inputManager;
     private readonly bool[,] gameBoard;
-    private Timer gameLoop;
-    private Timer inputTimer;
+    private readonly Timer gameLoop;
+    private readonly Timer inputTimer;
     private const int INTERVAL = 400;
     #endregion
+
+    /// <summary>
+    /// The score this game
+    /// </summary>
+    public int Score { get; private set; }
 
     /// <summary>
     /// The amount of rows of the game field
@@ -50,6 +55,7 @@ public class TetrisGame
         // TODO: check for null objects
         this.highscoreFetcher = highscoreFetcher;
         this.tetrisDrawer = tetrisDrawer;
+        tetrisDrawer.SetHighscores(highscoreFetcher.LoadHighscores());
         this.inputManager = inputManager;
         inputManager.KeyPressed += OnKeyPressed;
         Rows = rows;
@@ -142,9 +148,16 @@ public class TetrisGame
     private void GameOver()
     {
         // TODO: implement this
-        System.Diagnostics.Debug.WriteLine("Game Over");
         gameLoop.Stop();
         inputTimer.Stop();
+        var highscores = highscoreFetcher.LoadHighscores();
+        highscores.Add(new HighscoreModel()
+        {
+            Name = tetrisDrawer.PromptUsername(),
+            Score = Score
+        });
+        highscoreFetcher.SaveHighscores(highscores);
+        tetrisDrawer.DisplayGameOver(Score);
     }
 
     /// <summary>
@@ -188,7 +201,7 @@ public class TetrisGame
     /// </summary>
     private void ProcessFullRows()
     {
-        // TODO: Add scoring here
+        int amountRows = 0;
         for (int row = Rows-1; row>=0; row--)
         {
             bool rowFull = true;
@@ -202,10 +215,23 @@ public class TetrisGame
             }
             if (rowFull)
             {
+                amountRows++;
                 ClearRow(row);
                 row++;
             }
         }
+        // Add multipliers for score by amount of rows cleared and current level
+        Score += 10 * amountRows * GetLevelFromScore(Score);
+    }
+
+    /// <summary>
+    /// Calculates the current level based on the score of the player
+    /// </summary>
+    /// <param name="score">The score of the player</param>
+    /// <returns></returns>
+    public static int GetLevelFromScore(int score)
+    {
+        return Math.Max((int)Math.Log10(score),1);
     }
 
     /// <summary>
@@ -242,7 +268,7 @@ public class TetrisGame
         {
             lock (CurrentBlock)
             {
-                tetrisDrawer.Draw(Cloner.DeepClone(gameBoard), new Block(CurrentBlock), new Block(NextBlock));
+                tetrisDrawer.Draw(Cloner.DeepClone(gameBoard), new Block(CurrentBlock), new Block(NextBlock), Score);
             }
         }
 
