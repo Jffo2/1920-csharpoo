@@ -42,6 +42,8 @@ public class TetrisGame
     /// </summary>
     public Block NextBlock { get; private set; }
 
+    public bool IsGameOver { get; private set; }
+
     /// <summary>
     /// Constructor for the tetris game
     /// </summary>
@@ -52,24 +54,46 @@ public class TetrisGame
     /// <param name="rows">The amount of rows for the actual game</param>
 	public TetrisGame(IHighscoreFetcher highscoreFetcher, ITetrisDrawer tetrisDrawer, IInputManager inputManager, int columns, int rows)
 	{
-        // TODO: check for null objects
-        this.highscoreFetcher = highscoreFetcher;
-        this.tetrisDrawer = tetrisDrawer;
-        tetrisDrawer.SetHighscores(highscoreFetcher.LoadHighscores());
-        this.inputManager = inputManager;
-        inputManager.KeyPressed += OnKeyPressed;
+        // Check all parameters and throw exceptions where necessary
+        // Use 4 as a minimal value because that is the max width or height of one block
+        // Use 48 as a maximal value because otherwise the window would not fit the screen
+        if (columns < 4 || columns > 48) throw new ArgumentOutOfRangeException("columns", columns, "The value of columns must be between 4 and 48.");
+        if (rows < 4 || rows > 48) throw new ArgumentOutOfRangeException("rows", rows, "The value of rows must be between 4 and 48.");
         Rows = rows;
         Columns = columns;
-        // TODO: Check rows and columns and if invalid throw an exception
+
+        // Assign parameters to variables
+        this.highscoreFetcher = highscoreFetcher ?? throw new ArgumentNullException("highscoreFetcher");
+        this.tetrisDrawer = tetrisDrawer ?? throw new ArgumentNullException("tetrisDrawer");
+        this.inputManager = inputManager ?? throw new ArgumentNullException("inputManager");
+
+        // Create block objects
+        CurrentBlock = SpawnBlock();
+        NextBlock = SpawnBlock();
+
+        // Load highscores into the drawing class
+        tetrisDrawer.SetHighscores(highscoreFetcher.LoadHighscores());
+
+        // Add keypress listener
+        inputManager.KeyPressed += OnKeyPressed;
+        
+        // Initialize gameboard
         gameBoard = new bool[rows,columns];
+
+        IsGameOver = false;
+
+        // Initialize timers
         gameLoop = new Timer
         {
             Interval = INTERVAL
         };
+        gameLoop.Elapsed += new ElapsedEventHandler(OnTimerTick);
+
         inputTimer = new Timer
         {
             Interval = 1
         };
+        inputTimer.Elapsed += new ElapsedEventHandler(OnInputTimerTick);
     }
 
     /// <summary>
@@ -99,12 +123,8 @@ public class TetrisGame
         {
             GameOver();
         }
+        // Draw again after a key is pressed
         Draw();
-    }
-
-    public List<HighscoreModel> LoadHighscores()
-    {
-        return highscoreFetcher.LoadHighscores();
     }
 
     /// <summary>
@@ -112,17 +132,13 @@ public class TetrisGame
     /// </summary>
     public void Start()
     {
-        // TODO: attach handlers in constructor
-        CurrentBlock = SpawnBlock();
-        NextBlock = SpawnBlock();
-        gameLoop.Elapsed += new ElapsedEventHandler(OnTimerTick);
         gameLoop.Start();
-        inputTimer.Elapsed += new ElapsedEventHandler(OnInputTimerTick);
         inputTimer.Start();
     }
 
     /// <summary>
-    /// This tells the input class to check for available input
+    /// This tells the input class to check for available input and is called
+    /// from the inputTimer
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -143,13 +159,13 @@ public class TetrisGame
     }
 
     /// <summary>
-    /// Displays the game over text and stops all timers
+    /// Displays the "game over" text and stops all timers
     /// </summary>
     private void GameOver()
     {
-        // TODO: implement this
         gameLoop.Stop();
         inputTimer.Stop();
+
         var highscores = highscoreFetcher.LoadHighscores();
         highscores.Add(new HighscoreModel()
         {
@@ -157,7 +173,9 @@ public class TetrisGame
             Score = Score
         });
         highscoreFetcher.SaveHighscores(highscores);
+
         tetrisDrawer.DisplayGameOver(Score);
+        IsGameOver = true;
     }
 
     /// <summary>
@@ -225,16 +243,6 @@ public class TetrisGame
     }
 
     /// <summary>
-    /// Calculates the current level based on the score of the player
-    /// </summary>
-    /// <param name="score">The score of the player</param>
-    /// <returns></returns>
-    public static int GetLevelFromScore(int score)
-    {
-        return Math.Max((int)Math.Log10(score),1);
-    }
-
-    /// <summary>
     /// Clears the row and moves all row's above it down
     /// </summary>
     /// <param name="row">the row to clear</param>
@@ -244,10 +252,12 @@ public class TetrisGame
         {
             for (int c = 0; c<Columns; c++)
             {
+                // If it's the top row, add an empty one
                 if (r==0)
                 {
                     gameBoard[r, c] = false;
                 }
+                // Shift row one place down
                 else
                 {
                     gameBoard[r, c] = gameBoard[r - 1, c];
@@ -255,6 +265,16 @@ public class TetrisGame
             }
         }
         
+    }
+
+    /// <summary>
+    /// Calculates the current level based on the score of the player
+    /// </summary>
+    /// <param name="score">The score of the player</param>
+    /// <returns>An integer representing the current level, the starting level is 1</returns>
+    public static int GetLevelFromScore(int score)
+    {
+        return Math.Max((int)Math.Log10(score), 1);
     }
 
     /// <summary>

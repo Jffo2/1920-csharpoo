@@ -10,7 +10,7 @@ namespace Tetris.Data
     }
     public class KeyEventArgs : EventArgs
     {
-        public enum Keys { RotateL, RotateR, Left, Right, Down, Exit };
+        public enum Keys { RotateL, Left, Right, Down, Exit };
         public Keys Key { get; set; }
 
         public KeyEventArgs(Keys k)

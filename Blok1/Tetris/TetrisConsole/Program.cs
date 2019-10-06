@@ -10,7 +10,7 @@ namespace TetrisConsole
         {
             TetrisGame game = new TetrisGame(new HighscoreTextfileReader(), new TetrisDrawerConsole(20,10), new ConsoleInputManager(), 10, 20);
             game.Start();
-            while(1==1) { System.Threading.Thread.Sleep(1); }
+            while(!game.IsGameOver) { System.Threading.Thread.Sleep(1); }
         }
     }
 }

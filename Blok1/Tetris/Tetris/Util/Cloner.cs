@@ -9,6 +9,12 @@ namespace Tetris.Util
     public static class Cloner
     {
         // https://stackoverflow.com/a/129395
+        /// <summary>
+        /// Deep clone object T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns>The deep cloned object</returns>
         public static T DeepClone<T>(T obj)
         {
             using (var ms = new MemoryStream())
