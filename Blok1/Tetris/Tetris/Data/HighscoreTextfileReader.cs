@@ -44,7 +44,11 @@ namespace Tetris.Data
         {
             highscores.Sort();
             var top10 = highscores.Take(10);
-            File.WriteAllText(Path,JsonConvert.SerializeObject(top10));
+            var top10Json = JsonConvert.SerializeObject(top10);
+            using (var writer = new StreamWriter(Path))
+            {
+                writer.WriteLine(top10Json);
+            }
         }
     }
 }

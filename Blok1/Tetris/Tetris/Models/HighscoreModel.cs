@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class HighscoreModel : IComparable<HighscoreModel>
+public struct HighscoreModel : IComparable<HighscoreModel>
 {
 	public string Name { get; set; }
     public int Score { get; set; }
