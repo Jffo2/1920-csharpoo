@@ -159,6 +159,27 @@ public class TetrisGame
     }
 
     /// <summary>
+    /// Stop all timers, this can be resumed later with Resume
+    /// <see cref="Resume"/>
+    /// </summary>
+    public void Stop()
+    {
+        gameLoop.Stop();
+        inputTimer.Stop();
+    }
+
+    /// <summary>
+    /// Used to start again after the Stop method had been called.
+    /// <see cref="Stop"/>
+    /// </summary>
+    public void Resume()
+    {
+        gameLoop.Start();
+        inputTimer.Start();
+    }
+
+
+    /// <summary>
     /// Displays the "game over" text and stops all timers
     /// </summary>
     private void GameOver()

@@ -23,6 +23,8 @@ namespace TetrisForm.Interfaces
 
         public void DisplayGameOver(int finalScore)
         {
+            MessageBox.Show("Game over, you scored " + finalScore, "Game Over", MessageBoxButtons.OK, MessageBoxIcon.None);
+            DisplayScore(finalScore);
         }
 
         public void Draw(bool[,] gameBoard, Block block, Block NextBlock, int Score)
