@@ -1,0 +1,67 @@
+C# OO - zelfevaluatie
+=========================================
+
+Naam:	Jorn Schampheleer
+Datum:  10/10/2019
+Volgnummer blok: r0749836
+
+Onderwerp: Tetris
+
+Stand van zaken: 
+
+Ik ben klaar met het uitwerken van een basisversie van mijn project.
+
+Sterke punten:
+
+Alles is mooi verdeeld, ik heb interfaces voor het tekenen, hierdoor heb ik snel mijn toepassing die origineel werd ontworpen voor console
+kunnen overzetten naar een form
+
+Aandachtspunten in je aanpak:
+
+Ik heb soms de gewoonte te typen wat ik denk, dit kan leiden tot code die niet mooi oogt.
+
+
+Leerdoelen:
+
+Kennismaking met Visual Studio & C#: inzicht
+Debugging: inzicht
+Programmeerstijl: inzicht
+Architectuur van een toepassing - meerlagenmodel: inzicht
+	Ik maak gebruik van meerdere lagen, alsook van een klassebibliotheek (Tetris)
+	Ik gebruik dependency injection doorheen mijn project maar vooral in TetrisGame.cs
+exceptions: inzicht
+	Ik throw exceptions in mijn TetrisGame.cs wanneer de argumenten in de constructor niet
+	de verwachte waarden hebben
+enumerations: inzicht
+	Ik gebruik een enumeration voor de verschillende bloktypes zodat ze leesbaar blijven
+	in Block.cs . Ik gebruik ook enumerations voor de acties van mijn game in IInputManager.cs
+properties: inzicht
+generic collections: inzicht
+	Ik gebruik een dictionary om de vorm van blokken te mappen aan hun leesbare naam in de enum. (in Block.cs)
+	Ik gebruik ook een dictionary om de Key van een form te mappen aan een actie voor een blok. (in FormInputManager.cs)
+	Ik gebruik een lijst voor het werken met highscores. (HighscoreTextfileReader.cs)
+bestanden/streams: inzicht
+	Ik gebruik bestanden en streams voor het werken met highscores. (HighscoreTextfileReader.cs)
+'Value' en 'Reference' types: cloning & serialisatie: inzicht
+	Ik maakte een copy constructor voor mijn blok object (Block.cs)
+	Ik heb een cloner util klasse gereproduceerd van het internet die een deep copy van een object kan maken (Cloner.cs)
+Interpolated Strings: inzicht
+	Ik gebruik interpolated strings voor het weergeven van highscores in mijn consoletoepassing (TetrisDrawerConsole.cs -> DrawHighscores())
+Interfaces: inzicht
+	Ik gebruik interfaces voor het handlen van input (gezien dit anders verloopt op forms als op console) (IInputManager.cs)
+	Ik gebruik ook een interface voor het tekenen van mijn tetris, omdat ook dit anders loopt op console als op form (ITetrisDrawer.cs)
+	Tot slot geruik ik ook een interface voor highscore management, voor moest ik later met een database of iets anders willen werken (IHighscoreFetcher.cs)
+Structs: inzicht
+	Mijn HighscoreModel.cs klasse is een struct
+Delegate: inzicht
+	Ik gebruikte een delegate als Action voor het uitvoeren van keyboard checking code op de main thread
+	in FormInputManager.cs -> CheckInput()
+Lambda Expression: inzicht
+	Ik gebruikte een lambda expressie waar een delegate verwacht werd in TetrisDrawerForm.cs -> DisplayScore(int score)
+Events: inzicht
+	Ik schreef mijn eigen event voor het werken met keyboard input en dus communicatie van mijn datalaag met de logicalaag (IInputManager.cs)
+	Ik hing een handler aan deze event in mijn TetrisGame.cs -> OnKeyPressed(object sender, KeyEventArgs args)
+Statische klassen, methoden, velden: inzicht
+	Ik schreef een statische klasse alsook een statische methode in Cloner.cs
+	Ik schreef ook een statische methode in TetrisGame.cs -> GetLeveLFromScore(int score)
+	Ik maakte ook 2 statische velden in Block.cs alsook nog een statische methode

@@ -15,7 +15,7 @@ namespace Tetris.Logic
         /// <summary>
         /// A map of readable BlockShapes to their actual shape
         /// </summary>
-        public static Dictionary<BlockShape, bool[,]> BlockMap = new Dictionary<BlockShape, bool[,]>()
+        public readonly static Dictionary<BlockShape, bool[,]> BlockMap = new Dictionary<BlockShape, bool[,]>()
         {
             { BlockShape.T, new bool[,]{{false,true,false},{true,true,true} } },
             {BlockShape.L, new bool[,]{{false,false,true},{true,true,true}} },
