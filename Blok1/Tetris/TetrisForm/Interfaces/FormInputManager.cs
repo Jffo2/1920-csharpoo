@@ -27,7 +27,6 @@ namespace TetrisForm.Interfaces
         }
 
         public event EventHandler<Tetris.Data.KeyEventArgs> KeyPressed;
-        [STAThread]
         public void CheckInput()
         {
             if (previousKey != null)
