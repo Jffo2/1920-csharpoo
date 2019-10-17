@@ -28,12 +28,15 @@ namespace Tetris.Data
         /// <returns>a list of highscores</returns>
         public List<HighscoreModel> LoadHighscores()
         {
-            if (File.Exists(Path))
-            {
+            List<HighscoreModel> highscores;
+            try { 
                 string value = File.ReadAllText(Path);
-                return JsonConvert.DeserializeObject<List<HighscoreModel>>(value);
+                highscores = JsonConvert.DeserializeObject<List<HighscoreModel>>(value);
+            } catch
+            {
+                highscores = new List<HighscoreModel>();
             }
-            return new List<HighscoreModel>();
+            return highscores;
         }
 
         /// <summary>

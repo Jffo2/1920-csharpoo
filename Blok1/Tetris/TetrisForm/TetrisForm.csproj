@@ -89,6 +89,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HighscoreManager\Data.csproj">
+      <Project>{a5314965-4827-445b-b997-af5ca4192198}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tetris\Tetris.csproj">
       <Project>{3e29d8c6-f281-406d-b02b-5de0e762d33d}</Project>
       <Name>Tetris</Name>

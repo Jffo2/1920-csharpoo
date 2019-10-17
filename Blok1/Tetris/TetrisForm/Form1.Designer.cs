@@ -109,7 +109,7 @@
             this.Controls.Add(this.NextBlockPictureBox);
             this.Controls.Add(this.MainGamePictureBox);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "TetrisGame";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MainGamePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NextBlockPictureBox)).EndInit();

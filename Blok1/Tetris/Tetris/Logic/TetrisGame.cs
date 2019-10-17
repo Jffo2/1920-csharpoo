@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Timers;
 using Tetris.Data;
 using Tetris.Logic;
@@ -15,12 +16,25 @@ public class TetrisGame
     private readonly Timer gameLoop;
     private readonly Timer inputTimer;
     private const int INTERVAL = 400;
+    private int score;
+    private Queue<Block> blockQueue;
     #endregion
 
     /// <summary>
     /// The score this game
     /// </summary>
-    public int Score { get; private set; }
+    public int Score
+    {
+        get
+        {
+            return score;
+        }
+        private set
+        {
+            if (value <= 0) { score = 0; }
+            else { score = value; }
+        }
+    }
 
     /// <summary>
     /// The amount of rows of the game field
@@ -53,7 +67,7 @@ public class TetrisGame
     /// <param name="columns">The amount of columns for the actual game</param>
     /// <param name="rows">The amount of rows for the actual game</param>
 	public TetrisGame(IHighscoreFetcher highscoreFetcher, ITetrisDrawer tetrisDrawer, IInputManager inputManager, int columns, int rows)
-	{
+    {
         // Check all parameters and throw exceptions where necessary
         // Use 4 as a minimal value because that is the max width or height of one block
         // Use 48 as a maximal value because otherwise the window would not fit the screen
@@ -67,6 +81,9 @@ public class TetrisGame
         this.tetrisDrawer = tetrisDrawer ?? throw new ArgumentNullException("tetrisDrawer");
         this.inputManager = inputManager ?? throw new ArgumentNullException("inputManager");
 
+        // Initialize queue
+        blockQueue = new Queue<Block>();
+
         // Create block objects
         CurrentBlock = SpawnBlock();
         NextBlock = SpawnBlock();
@@ -76,9 +93,9 @@ public class TetrisGame
 
         // Add keypress listener
         inputManager.KeyPressed += OnKeyPressed;
-        
+
         // Initialize gameboard
-        gameBoard = new bool[rows,columns];
+        gameBoard = new bool[rows, columns];
 
         IsGameOver = false;
 
@@ -153,9 +170,7 @@ public class TetrisGame
     /// <returns>A block ready for use</returns>
     private Block SpawnBlock()
     {
-        var b = new Block(0, Columns / 2);
-        b.Column -= b.Shape.GetLength(1)/2;
-        return b;
+        return blockQueue.Dequeue();
     }
 
     /// <summary>
@@ -241,12 +256,12 @@ public class TetrisGame
     private void ProcessFullRows()
     {
         int amountRows = 0;
-        for (int row = Rows-1; row>=0; row--)
+        for (int row = Rows - 1; row >= 0; row--)
         {
             bool rowFull = true;
-            for (int column = 0; column<Columns; column++)
+            for (int column = 0; column < Columns; column++)
             {
-                if (!gameBoard[row,column])
+                if (!gameBoard[row, column])
                 {
                     rowFull = false;
                     break;
@@ -269,12 +284,12 @@ public class TetrisGame
     /// <param name="row">the row to clear</param>
     private void ClearRow(int row)
     {
-        for (int r = row; r>=0; r--)
+        for (int r = row; r >= 0; r--)
         {
-            for (int c = 0; c<Columns; c++)
+            for (int c = 0; c < Columns; c++)
             {
                 // If it's the top row, add an empty one
-                if (r==0)
+                if (r == 0)
                 {
                     gameBoard[r, c] = false;
                 }
@@ -285,7 +300,7 @@ public class TetrisGame
                 }
             }
         }
-        
+
     }
 
     /// <summary>
@@ -312,6 +327,23 @@ public class TetrisGame
                 tetrisDrawer.Draw(Cloner.DeepClone(gameBoard), new Block(CurrentBlock), new Block(NextBlock), Score);
             }
         }
+    }
 
+    private void PopulateQueue()
+    {
+        Task t = new Task((Action)delegate
+        {
+            while (blockQueue.Count <= 10)
+            {
+                var b = new Block(0, Columns / 2);
+                b.Column -= b.Shape.GetLength(1) / 2;
+                blockQueue.Enqueue(b);
+            }
+        });
+        while (gameLoop.Enabled)
+        {
+            t.Start();
+            System.Threading.Thread.Sleep(100);
+        }
     }
 }
