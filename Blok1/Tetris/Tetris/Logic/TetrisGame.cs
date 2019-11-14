@@ -71,15 +71,15 @@ public class TetrisGame
         // Check all parameters and throw exceptions where necessary
         // Use 4 as a minimal value because that is the max width or height of one block
         // Use 48 as a maximal value because otherwise the window would not fit the screen
-        if (columns < 4 || columns > 48) throw new ArgumentOutOfRangeException("columns", columns, "The value of columns must be between 4 and 48.");
-        if (rows < 4 || rows > 48) throw new ArgumentOutOfRangeException("rows", rows, "The value of rows must be between 4 and 48.");
+        if (columns < 4 || columns > 48) throw new ArgumentOutOfRangeException(nameof(columns), columns, "The value of columns must be between 4 and 48.");
+        if (rows < 4 || rows > 48) throw new ArgumentOutOfRangeException(nameof(rows), rows, "The value of rows must be between 4 and 48.");
         Rows = rows;
         Columns = columns;
 
         // Assign parameters to variables
-        this.highscoreFetcher = highscoreFetcher ?? throw new ArgumentNullException("highscoreFetcher");
-        this.tetrisDrawer = tetrisDrawer ?? throw new ArgumentNullException("tetrisDrawer");
-        this.inputManager = inputManager ?? throw new ArgumentNullException("inputManager");
+        this.highscoreFetcher = highscoreFetcher ?? throw new ArgumentNullException(nameof(highscoreFetcher));
+        this.tetrisDrawer = tetrisDrawer ?? throw new ArgumentNullException(nameof(tetrisDrawer));
+        this.inputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
 
         // Load highscores into the drawing class
         tetrisDrawer.SetHighscores(highscoreFetcher.LoadHighscores());
@@ -333,6 +333,9 @@ public class TetrisGame
         }
     }
 
+    /// <summary>
+    /// Starts a deamon that will monitor the queue and fill it when necessary
+    /// </summary>
     private void PopulateQueue()
     {
         while (blockQueue.Count <= 10)
@@ -352,6 +355,7 @@ public class TetrisGame
                     b.Column -= b.Shape.GetLength(1) / 2;
                     blockQueue.Enqueue(b);
                 }
+                System.Threading.Thread.Sleep(100);
             }
         });
         t.Start();
