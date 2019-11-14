@@ -8,12 +8,31 @@ namespace TetrisForm.Interfaces
 {
     class TetrisDrawerForm : ITetrisDrawer
     {
+        #region Private Variables
         private string infoString;
+        #endregion
+
+        /// <summary>
+        /// The picturebox to which we will draw the game
+        /// </summary>
         public PictureBox MainGamePictureBox { get; }
+
+        /// <summary>
+        /// The picturebox in which we will draw the next block
+        /// </summary>
         public PictureBox NextBlockPictureBox { get; }
 
+        /// <summary>
+        /// The label containing score and highscore details
+        /// </summary>
         public Label InfoLabel { get; }
 
+        /// <summary>
+        /// The constructor containing the elements to which we will draw the information
+        /// </summary>
+        /// <param name="mainGamePictureBox">the picturebox to which we will draw the game</param>
+        /// <param name="nextBlockPictureBox">the picturebox in which we will draw the next block</param>
+        /// <param name="infoLabel">the label containing score and highscore details</param>
         public TetrisDrawerForm(PictureBox mainGamePictureBox, PictureBox nextBlockPictureBox, Label infoLabel)
         {
             MainGamePictureBox = mainGamePictureBox;
@@ -21,12 +40,23 @@ namespace TetrisForm.Interfaces
             InfoLabel = infoLabel;
         }
 
+        /// <summary>
+        /// Display the final score to the user and present him with the game over screen
+        /// </summary>
+        /// <param name="finalScore">the final score of the user</param>
         public void DisplayGameOver(int finalScore)
         {
             MessageBox.Show("Game over, you scored " + finalScore, "Game Over", MessageBoxButtons.OK, MessageBoxIcon.None);
             DisplayScore(finalScore);
         }
 
+        /// <summary>
+        /// The main drawing method that's called from the game loop
+        /// </summary>
+        /// <param name="gameBoard">the game board</param>
+        /// <param name="block">the block that's falling</param>
+        /// <param name="NextBlock">the next block that'll fall</param>
+        /// <param name="Score">the score of the user</param>
         public void Draw(bool[,] gameBoard, Block block, Block NextBlock, int Score)
         {
             DrawMainGame(gameBoard, block);
@@ -34,12 +64,20 @@ namespace TetrisForm.Interfaces
             DisplayScore(Score);
         }
 
+        /// <summary>
+        /// Display the current score to the screen
+        /// </summary>
+        /// <param name="score">the current score</param>
         private void DisplayScore(int score)
         {
             var action = new Action<int>((s) => InfoLabel.Text = string.Format(infoString, s, TetrisGame.GetLevelFromScore(s)));
             InfoLabel.Invoke(action, score);
         }
 
+        /// <summary>
+        /// Draw the next block to the screen
+        /// </summary>
+        /// <param name="nextBlock">the next block that will fall</param>
         private void DrawNextBlock(Block nextBlock)
         {
             var width = NextBlockPictureBox.Width;
@@ -56,6 +94,11 @@ namespace TetrisForm.Interfaces
             NextBlockPictureBox.Image = bmp;
         }
 
+        /// <summary>
+        /// This will draw the gameboard to the screen as well as the block that's falling
+        /// </summary>
+        /// <param name="gameBoard">the gameboard</param>
+        /// <param name="block">the block that's falling</param>
         private void DrawMainGame(bool[,] gameBoard, Block block)
         {
             var width = MainGamePictureBox.Width;
@@ -71,6 +114,14 @@ namespace TetrisForm.Interfaces
             MainGamePictureBox.Image = bmp;
         }
 
+        /// <summary>
+        /// Draw a block to the screen
+        /// </summary>
+        /// <param name="g">the graphics to draw</param>
+        /// <param name="rows">the amount of rows the canvas should be divided into</param>
+        /// <param name="columns">the amount of columns the canvas should be divided into</param>
+        /// <param name="b">the block to draw</param>
+        /// <param name="p">the picturebox to calculate the canvas size from</param>
         private void DrawBlock(Graphics g, int rows, int columns, Block b, PictureBox p)
         {
             var columnOffset = b.Column;
@@ -87,6 +138,11 @@ namespace TetrisForm.Interfaces
             }
         }
 
+        /// <summary>
+        /// Draw the game board to the screen
+        /// </summary>
+        /// <param name="g">the graphics used to draw</param>
+        /// <param name="gameBoard">the game board</param>
         private void DrawGameBoard(Graphics g, bool[,] gameBoard)
         {
             var rows = gameBoard.GetLength(0);
@@ -103,6 +159,10 @@ namespace TetrisForm.Interfaces
             }
         }
 
+        /// <summary>
+        /// Prompt for the user name used in the highscores
+        /// </summary>
+        /// <returns></returns>
         public string PromptUsername()
         {
             string name = "";
@@ -110,6 +170,10 @@ namespace TetrisForm.Interfaces
             return name;
         }
 
+        /// <summary>
+        /// Set the highscores to be drawn to the screen
+        /// </summary>
+        /// <param name="highscores">the highscores to be drawn</param>
         public void SetHighscores(List<HighscoreModel> highscores)
         {
             infoString = "Score: {0}\r\nLevel: {1}\r\n\r\n\r\n";
