@@ -182,8 +182,11 @@ public class TetrisGame
     /// </summary>
     public void Stop()
     {
-        gameLoop.Stop();
-        inputTimer.Stop();
+        if (!IsGameOver)
+        {
+            gameLoop.Stop();
+            inputTimer.Stop();
+        }
     }
 
     /// <summary>
@@ -192,8 +195,11 @@ public class TetrisGame
     /// </summary>
     public void Resume()
     {
-        gameLoop.Start();
-        inputTimer.Start();
+        if (!IsGameOver)
+        {
+            gameLoop.Start();
+            inputTimer.Start();
+        }
     }
 
 
