@@ -17,7 +17,7 @@ public class TetrisGame
     private readonly Timer inputTimer;
     private const int INTERVAL = 400;
     private int score;
-    private Queue<Block> blockQueue;
+    private readonly Queue<Block> blockQueue;
     #endregion
 
     /// <summary>
@@ -81,13 +81,6 @@ public class TetrisGame
         this.tetrisDrawer = tetrisDrawer ?? throw new ArgumentNullException("tetrisDrawer");
         this.inputManager = inputManager ?? throw new ArgumentNullException("inputManager");
 
-        // Initialize queue
-        blockQueue = new Queue<Block>();
-
-        // Create block objects
-        CurrentBlock = SpawnBlock();
-        NextBlock = SpawnBlock();
-
         // Load highscores into the drawing class
         tetrisDrawer.SetHighscores(highscoreFetcher.LoadHighscores());
 
@@ -111,6 +104,16 @@ public class TetrisGame
             Interval = 1
         };
         inputTimer.Elapsed += new ElapsedEventHandler(OnInputTimerTick);
+
+        // Initialize queue
+        blockQueue = new Queue<Block>();
+        PopulateQueue();
+
+        // Create block objects
+        CurrentBlock = SpawnBlock();
+        NextBlock = SpawnBlock();
+
+
     }
 
     /// <summary>
@@ -276,6 +279,7 @@ public class TetrisGame
         }
         // Add multipliers for score by amount of rows cleared and current level
         Score += 10 * amountRows * GetLevelFromScore(Score);
+        gameLoop.Interval = INTERVAL - 20 * GetLevelFromScore(Score);
     }
 
     /// <summary>
@@ -331,19 +335,26 @@ public class TetrisGame
 
     private void PopulateQueue()
     {
+        while (blockQueue.Count <= 10)
+        {
+            var b = new Block(0, Columns / 2);
+            b.Column -= b.Shape.GetLength(1) / 2;
+            blockQueue.Enqueue(b);
+        }
+
         Task t = new Task((Action)delegate
         {
-            while (blockQueue.Count <= 10)
+            while (!IsGameOver)
             {
-                var b = new Block(0, Columns / 2);
-                b.Column -= b.Shape.GetLength(1) / 2;
-                blockQueue.Enqueue(b);
+                while (blockQueue.Count <= 10)
+                {
+                    var b = new Block(0, Columns / 2);
+                    b.Column -= b.Shape.GetLength(1) / 2;
+                    blockQueue.Enqueue(b);
+                }
             }
         });
-        while (gameLoop.Enabled)
-        {
-            t.Start();
-            System.Threading.Thread.Sleep(100);
-        }
+        t.Start();
+
     }
 }
