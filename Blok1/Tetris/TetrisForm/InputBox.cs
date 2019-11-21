@@ -7,6 +7,13 @@ namespace TetrisForm
     static class InputBox
     {
         //http://www.csharp-examples.net/inputbox/
+        /// <summary>
+        /// Show an input box
+        /// </summary>
+        /// <param name="title">The title of the window</param>
+        /// <param name="promptText">The text to prompt the user</param>
+        /// <param name="value">Passed by reference, the value entered by the user</param>
+        /// <returns>A dialogresult describing the user action</returns>
         public static DialogResult Show(string title, string promptText, ref string value)
         {
             Form form = new Form();
