@@ -8,4 +8,5 @@ public interface ITetrisDrawer
     void DisplayGameOver(int finalScore);
     string PromptUsername();
     void Draw(bool[,] gameBoard, Block block, Block NextBlock, int Score);
+    void DrawOnlineGame(bool[,] gameBoard);
 }

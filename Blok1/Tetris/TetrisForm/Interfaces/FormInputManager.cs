@@ -29,17 +29,21 @@ namespace TetrisForm.Interfaces
         public event EventHandler<Tetris.Data.KeyEventArgs> KeyPressed;
         public void CheckInput()
         {
-            if (previousKey != null)
+            try
             {
-                dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
+                if (previousKey != null)
                 {
-                    if (Keyboard.IsKeyUp((Key)previousKey))
+                    dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
                     {
-                        previousKey = null;
-                        millis = 0;
-                    }
-                });
+                        if (Keyboard.IsKeyUp((Key)previousKey))
+                        {
+                            previousKey = null;
+                            millis = 0;
+                        }
+                    });
+                }
             }
+            catch (Exception) { }
             if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - millis > DELAY)
             {
                 Key? key = null;

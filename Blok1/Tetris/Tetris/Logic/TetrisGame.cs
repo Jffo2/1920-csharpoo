@@ -6,7 +6,7 @@ using Tetris.Data;
 using Tetris.Logic;
 using Tetris.Util;
 
-public class TetrisGame
+public class TetrisGame : OnlineGame
 {
     #region Private Variables
     private readonly IHighscoreFetcher highscoreFetcher;
@@ -18,7 +18,9 @@ public class TetrisGame
     private const int INTERVAL = 400;
     private int score;
     private readonly Queue<Block> blockQueue;
+
     #endregion
+
 
     /// <summary>
     /// The score this game
@@ -66,7 +68,7 @@ public class TetrisGame
     /// <param name="inputManager">An object that will listen for input</param>
     /// <param name="columns">The amount of columns for the actual game</param>
     /// <param name="rows">The amount of rows for the actual game</param>
-	public TetrisGame(IHighscoreFetcher highscoreFetcher, ITetrisDrawer tetrisDrawer, IInputManager inputManager, int columns, int rows)
+	public TetrisGame(IHighscoreFetcher highscoreFetcher, ITetrisDrawer tetrisDrawer, IInputManager inputManager, int columns, int rows) : base(tetrisDrawer)
     {
         // Check all parameters and throw exceptions where necessary
         // Use 4 as a minimal value because that is the max width or height of one block
@@ -332,11 +334,27 @@ public class TetrisGame
         // Lock just ensures that whatever is inside it's body does not execute while the object between the brackets is in use somewhere else.
         lock (gameBoard)
         {
+            PrepareSendData(gameBoard, CurrentBlock);
             lock (CurrentBlock)
             {
                 tetrisDrawer.Draw(Cloner.DeepClone(gameBoard), new Block(CurrentBlock), new Block(NextBlock), Score);
             }
         }
+    }
+
+    private void PrepareSendData(bool[,] gameBoard, Block currentBlock)
+    {
+        var gameBoardCopy = Cloner.DeepClone(gameBoard);
+        for (int r = 0; r < currentBlock.Shape.GetLength(0); r++)
+        {
+            for (int c = 0; c < currentBlock.Shape.GetLength(1); c++)
+            {
+                gameBoardCopy[r + currentBlock.Row, c + currentBlock.Column] |= currentBlock.Shape[r, c];
+            }
+
+        }
+
+        SendData(gameBoardCopy);
     }
 
     /// <summary>

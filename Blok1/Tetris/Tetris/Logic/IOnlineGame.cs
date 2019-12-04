@@ -7,6 +7,6 @@ namespace Tetris.Logic
     public interface IOnlineGame
     {
         void SendData(object o);
-        object ReceiveData();
+        object GetLastGameState();
     }
 }

@@ -34,8 +34,13 @@
             this.StartButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
             this.PauseButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ConnectionTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.ConnectButton = new System.Windows.Forms.Button();
+            this.OnlineGamePictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainGamePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NextBlockPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OnlineGamePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // MainGamePictureBox
@@ -64,7 +69,7 @@
             // 
             // StartButton
             // 
-            this.StartButton.Location = new System.Drawing.Point(954, 12);
+            this.StartButton.Location = new System.Drawing.Point(686, 12);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(75, 23);
             this.StartButton.TabIndex = 3;
@@ -76,7 +81,7 @@
             // StopButton
             // 
             this.StopButton.Enabled = false;
-            this.StopButton.Location = new System.Drawing.Point(954, 50);
+            this.StopButton.Location = new System.Drawing.Point(686, 50);
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(75, 23);
             this.StopButton.TabIndex = 4;
@@ -88,7 +93,7 @@
             // PauseButton
             // 
             this.PauseButton.Enabled = false;
-            this.PauseButton.Location = new System.Drawing.Point(954, 90);
+            this.PauseButton.Location = new System.Drawing.Point(686, 90);
             this.PauseButton.Name = "PauseButton";
             this.PauseButton.Size = new System.Drawing.Size(75, 23);
             this.PauseButton.TabIndex = 5;
@@ -97,11 +102,50 @@
             this.PauseButton.UseVisualStyleBackColor = true;
             this.PauseButton.Click += new System.EventHandler(this.PauseButton_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(786, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "IP-adres en poort";
+            // 
+            // ConnectionTextBox
+            // 
+            this.ConnectionTextBox.Location = new System.Drawing.Point(789, 28);
+            this.ConnectionTextBox.Mask = "999.999.999.999:9999";
+            this.ConnectionTextBox.Name = "ConnectionTextBox";
+            this.ConnectionTextBox.Size = new System.Drawing.Size(100, 20);
+            this.ConnectionTextBox.TabIndex = 7;
+            // 
+            // ConnectButton
+            // 
+            this.ConnectButton.Location = new System.Drawing.Point(789, 54);
+            this.ConnectButton.Name = "ConnectButton";
+            this.ConnectButton.Size = new System.Drawing.Size(75, 23);
+            this.ConnectButton.TabIndex = 8;
+            this.ConnectButton.Text = "Connect";
+            this.ConnectButton.UseVisualStyleBackColor = true;
+            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+            // 
+            // OnlineGamePictureBox
+            // 
+            this.OnlineGamePictureBox.Location = new System.Drawing.Point(912, 12);
+            this.OnlineGamePictureBox.Name = "OnlineGamePictureBox";
+            this.OnlineGamePictureBox.Size = new System.Drawing.Size(400, 720);
+            this.OnlineGamePictureBox.TabIndex = 9;
+            this.OnlineGamePictureBox.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1191, 754);
+            this.ClientSize = new System.Drawing.Size(1633, 754);
+            this.Controls.Add(this.OnlineGamePictureBox);
+            this.Controls.Add(this.ConnectButton);
+            this.Controls.Add(this.ConnectionTextBox);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.PauseButton);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.StartButton);
@@ -110,9 +154,11 @@
             this.Controls.Add(this.MainGamePictureBox);
             this.Name = "Form1";
             this.Text = "TetrisGame";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MainGamePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NextBlockPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OnlineGamePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,6 +172,10 @@
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.Button PauseButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.MaskedTextBox ConnectionTextBox;
+        private System.Windows.Forms.Button ConnectButton;
+        private System.Windows.Forms.PictureBox OnlineGamePictureBox;
     }
 }
 

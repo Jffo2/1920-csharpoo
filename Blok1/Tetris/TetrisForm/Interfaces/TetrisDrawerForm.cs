@@ -22,6 +22,8 @@ namespace TetrisForm.Interfaces
         /// </summary>
         public PictureBox NextBlockPictureBox { get; }
 
+        public PictureBox OnlineGamePictureBox { get; }
+
         /// <summary>
         /// The label containing score and highscore details
         /// </summary>
@@ -33,10 +35,11 @@ namespace TetrisForm.Interfaces
         /// <param name="mainGamePictureBox">the picturebox to which we will draw the game</param>
         /// <param name="nextBlockPictureBox">the picturebox in which we will draw the next block</param>
         /// <param name="infoLabel">the label containing score and highscore details</param>
-        public TetrisDrawerForm(PictureBox mainGamePictureBox, PictureBox nextBlockPictureBox, Label infoLabel)
+        public TetrisDrawerForm(PictureBox mainGamePictureBox, PictureBox nextBlockPictureBox, PictureBox onlineGamePictureBox, Label infoLabel)
         {
             MainGamePictureBox = mainGamePictureBox;
             NextBlockPictureBox = nextBlockPictureBox;
+            OnlineGamePictureBox = onlineGamePictureBox;
             InfoLabel = infoLabel;
         }
 
@@ -183,6 +186,20 @@ namespace TetrisForm.Interfaces
                 infoString += $"{index}. {model.Name} scored {model.Score}\r\n";
                 index++;
             }
+        }
+
+        public void DrawOnlineGame(bool[,] gameBoard)
+        {
+            var width = OnlineGamePictureBox.Width;
+            var height = OnlineGamePictureBox.Height;
+            var bmp = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                Brush b = new SolidBrush(Color.White);
+                g.FillRectangle(b, new Rectangle(0, 0, width - 2, height - 2));
+                DrawGameBoard(g, gameBoard);
+            }
+            OnlineGamePictureBox.Image = bmp;
         }
     }
 }

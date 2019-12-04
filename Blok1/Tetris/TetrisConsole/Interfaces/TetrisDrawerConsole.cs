@@ -243,5 +243,10 @@ namespace TetrisConsole.Interfaces
             Console.SetCursorPosition(Console.WindowWidth / 2 - prompt.Length / 2, Console.WindowHeight/2+1);
             return Console.ReadLine();
         }
+
+        public void DrawOnlineGame(bool[,] gameBoard)
+        {
+            return;
+        }
     }
 }
