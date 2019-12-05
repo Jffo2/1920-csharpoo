@@ -8,7 +8,7 @@ using static Tetris.Logic.ConnectionHandler;
 
 namespace Tetris.Logic
 {
-    public abstract class OnlineGame : IOnlineGame, IDisposable
+    public abstract class OnlineGame : IOnlineGame
     {
         public Socket Socket { get; protected set; }
         public bool IsClient { get; private set; }
@@ -106,11 +106,6 @@ namespace Tetris.Logic
         public void Close()
         {
             Socket.Close();
-        }
-
-        public void Dispose()
-        {
-            Close();
         }
     }
 }

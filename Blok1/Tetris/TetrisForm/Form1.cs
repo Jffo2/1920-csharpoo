@@ -33,6 +33,8 @@ namespace TetrisForm
 
         private void Setup()
         {
+            if (tetrisGame!=null)
+                tetrisGame.Close();
             tetrisGame = new TetrisGame(new HighscoreTextfileReader(), new TetrisDrawerForm(MainGamePictureBox, NextBlockPictureBox, OnlineGamePictureBox, InfoLabel), new FormInputManager(Dispatcher.CurrentDispatcher), 10, 20);
             tetrisGame.OnDisconnect += ClientDisconnected;
             tetrisGame.OnConnect += ClientConnected;

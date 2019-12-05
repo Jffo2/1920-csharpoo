@@ -54,7 +54,10 @@ namespace Tetris.Logic
 
         public void WriteData(object o)
         {
-             Socket.Send(JsonConvert.SerializeObject(o).ToCharArray().Select((val) => (byte)val).ToArray());
+            try
+            {
+                Socket.Send(JsonConvert.SerializeObject(o).ToCharArray().Select((val) => (byte)val).ToArray());
+            } catch (Exception) { /* Connection was closed */}
         }
 
         public class SocketEventArgs : EventArgs
