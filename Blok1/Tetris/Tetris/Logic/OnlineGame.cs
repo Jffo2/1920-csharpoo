@@ -35,6 +35,7 @@ namespace Tetris.Logic
                 {
                     Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     Socket.Bind(new IPEndPoint(IPAddress.Any, port));
+                    System.Diagnostics.Debug.WriteLine("Bound to port: " + port);
                     Socket.Listen(1);
                     IsClient = false;
                 }
@@ -95,7 +96,8 @@ namespace Tetris.Logic
         public void BecomeClient(string ip, int port)
         {
             Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            Socket.Connect(ip, port);
+            // This is necessary because locale changes a dot to a comma sometimes
+            Socket.Connect(ip.Replace(",","."), port);
             handler = new ConnectionHandler(Socket);
             handler.MessageReceived += ReceiveData;
             handler.OnDisconnect += ClientDisconnected;
