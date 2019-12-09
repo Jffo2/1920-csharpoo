@@ -38,6 +38,7 @@
             this.ConnectionTextBox = new System.Windows.Forms.MaskedTextBox();
             this.ConnectButton = new System.Windows.Forms.Button();
             this.OnlineGamePictureBox = new System.Windows.Forms.PictureBox();
+            this.OnlineScoreLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.MainGamePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NextBlockPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OnlineGamePictureBox)).BeginInit();
@@ -137,11 +138,20 @@
             this.OnlineGamePictureBox.TabIndex = 9;
             this.OnlineGamePictureBox.TabStop = false;
             // 
+            // OnlineScoreLabel
+            // 
+            this.OnlineScoreLabel.AutoSize = true;
+            this.OnlineScoreLabel.Location = new System.Drawing.Point(1328, 12);
+            this.OnlineScoreLabel.Name = "OnlineScoreLabel";
+            this.OnlineScoreLabel.Size = new System.Drawing.Size(0, 13);
+            this.OnlineScoreLabel.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1633, 754);
+            this.Controls.Add(this.OnlineScoreLabel);
             this.Controls.Add(this.OnlineGamePictureBox);
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.ConnectionTextBox);
@@ -176,6 +186,7 @@
         private System.Windows.Forms.MaskedTextBox ConnectionTextBox;
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.PictureBox OnlineGamePictureBox;
+        private System.Windows.Forms.Label OnlineScoreLabel;
     }
 }
 

@@ -28,14 +28,18 @@ namespace TetrisForm
         private void Form1_Load(object sender, EventArgs e)
         {
             Setup();
-
         }
 
         private void Setup()
         {
-            if (tetrisGame!=null)
+
+            if (tetrisGame != null)
+            {
+                tetrisGame.OnConnect -= ClientConnected;
+                tetrisGame.OnDisconnect -= ClientDisconnected;
                 tetrisGame.Close();
-            tetrisGame = new TetrisGame(new HighscoreTextfileReader(), new TetrisDrawerForm(MainGamePictureBox, NextBlockPictureBox, OnlineGamePictureBox, InfoLabel), new FormInputManager(Dispatcher.CurrentDispatcher), 10, 20);
+            }
+            tetrisGame = new TetrisGame(new HighscoreTextfileReader(), new TetrisDrawerForm(MainGamePictureBox, NextBlockPictureBox, OnlineGamePictureBox, InfoLabel, OnlineScoreLabel), new FormInputManager(Dispatcher.CurrentDispatcher), 10, 20);
             tetrisGame.OnDisconnect += ClientDisconnected;
             tetrisGame.OnConnect += ClientConnected;
         }
@@ -50,6 +54,7 @@ namespace TetrisForm
 
         private void ClientDisconnected(object sender, SocketEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Re-enabling the start button");
             ConnectButton.Invoke(new Action(() =>
             {
                 ConnectButton.Enabled = true;
@@ -67,6 +72,7 @@ namespace TetrisForm
         private void StopButton_Click(object sender, EventArgs e)
         {
             tetrisGame?.Stop();
+            ClientDisconnected(null, null);
             StartButton.Enabled = true;
             StopButton.Enabled = false;
             PauseButton.Enabled = false;

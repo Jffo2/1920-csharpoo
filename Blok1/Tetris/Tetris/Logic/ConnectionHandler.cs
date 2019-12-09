@@ -21,6 +21,9 @@ namespace Tetris.Logic
             StartListening();
         }
 
+        /// <summary>
+        /// Start listening for disconnects and incoming messages
+        /// </summary>
         public void StartListening()
         {
             listenForIncoming = true;
@@ -38,7 +41,6 @@ namespace Tetris.Logic
                         }
                         if (Socket.Available > 0)
                         {
-                            System.Diagnostics.Debug.WriteLine("Data is available for reading!");
                             MessageReceived?.Invoke(this, new SocketEventArgs(Socket));
                         }
                     }
@@ -47,16 +49,24 @@ namespace Tetris.Logic
             });
         }
 
+        /// <summary>
+        /// Stop listening for incoming messages
+        /// </summary>
         public void StopListening()
         {
             listenForIncoming = false;
         }
 
-        public void WriteData(object o)
+        /// <summary>
+        /// Send data through the socket
+        /// </summary>
+        /// <param name="command">the command for the receiver</param>
+        /// <param name="o">the data for the receiver</param>
+        public void WriteData(string command, object o)
         {
             try
             {
-                Socket.Send(JsonConvert.SerializeObject(o).ToCharArray().Select((val) => (byte)val).ToArray());
+                Socket.Send((command + "\a\a\a" + JsonConvert.SerializeObject(o) + (char)4).ToCharArray().Select((val) => (byte)val).ToArray());
             } catch (Exception) { /* Connection was closed */}
         }
 

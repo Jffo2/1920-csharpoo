@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
@@ -20,7 +21,6 @@ public class TetrisGame : OnlineGame
     private readonly Queue<Block> blockQueue;
 
     #endregion
-
 
     /// <summary>
     /// The score this game
@@ -68,7 +68,7 @@ public class TetrisGame : OnlineGame
     /// <param name="inputManager">An object that will listen for input</param>
     /// <param name="columns">The amount of columns for the actual game</param>
     /// <param name="rows">The amount of rows for the actual game</param>
-	public TetrisGame(IHighscoreFetcher highscoreFetcher, ITetrisDrawer tetrisDrawer, IInputManager inputManager, int columns, int rows) : base(tetrisDrawer)
+	public TetrisGame(IHighscoreFetcher highscoreFetcher, ITetrisDrawer tetrisDrawer, IInputManager inputManager, int columns, int rows) : base()
     {
         // Check all parameters and throw exceptions where necessary
         // Use 4 as a minimal value because that is the max width or height of one block
@@ -287,6 +287,7 @@ public class TetrisGame : OnlineGame
         }
         // Add multipliers for score by amount of rows cleared and current level
         Score += 10 * amountRows * GetLevelFromScore(Score);
+        SendData("score", Score);
         gameLoop.Interval = INTERVAL - 20 * GetLevelFromScore(Score);
     }
 
@@ -342,6 +343,11 @@ public class TetrisGame : OnlineGame
         }
     }
 
+    /// <summary>
+    /// Create one array containing the falling block and the gameboard
+    /// </summary>
+    /// <param name="gameBoard"></param>
+    /// <param name="currentBlock"></param>
     private void PrepareSendData(bool[,] gameBoard, Block currentBlock)
     {
         var gameBoardCopy = Cloner.DeepClone(gameBoard);
@@ -354,7 +360,7 @@ public class TetrisGame : OnlineGame
 
         }
 
-        SendData(gameBoardCopy);
+        SendData("gameboard", gameBoardCopy);
     }
 
     /// <summary>
@@ -384,5 +390,25 @@ public class TetrisGame : OnlineGame
         });
         t.Start();
 
+    }
+
+    private int onlineScore = 0;
+
+    /// <summary>
+    /// Process incoming online data
+    /// </summary>
+    /// <param name="command">the command of the data</param>
+    /// <param name="obj">the object in json notation</param>
+    protected override void ProcessData(string command, string obj)
+    {
+        if (command.Equals("gameboard"))
+        {
+            bool[,] gameBoard = JsonConvert.DeserializeObject<bool[,]>(obj);
+            tetrisDrawer.DrawOnlineGame(gameBoard, onlineScore);
+        }
+        else if (command.Equals("score"))
+        {
+            onlineScore = JsonConvert.DeserializeObject<int>(obj);
+        }
     }
 }

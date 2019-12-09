@@ -244,7 +244,7 @@ namespace TetrisConsole.Interfaces
             return Console.ReadLine();
         }
 
-        public void DrawOnlineGame(bool[,] gameBoard)
+        public void DrawOnlineGame(bool[,] gameBoard, int score)
         {
             return;
         }
