@@ -364,7 +364,7 @@ public class TetrisGame : OnlineGame
     }
 
     /// <summary>
-    /// Starts a deamon that will monitor the queue and fill it when necessary
+    /// Starts a daemon that will monitor the queue and fill it when necessary
     /// </summary>
     private void PopulateQueue()
     {

@@ -47,7 +47,8 @@ namespace Tetris.Logic
                         System.Diagnostics.Debug.WriteLine("Triggering client connect");
                         OnConnect?.Invoke(this, new SocketEventArgs(handler.Socket));
                     }
-                    catch {
+                    catch
+                    {
                         Close();
                     }
                 }
@@ -117,7 +118,10 @@ namespace Tetris.Logic
                             string[] tuple = singleBurst.Split(new string[] { "\a\a\a" }, StringSplitOptions.None);
                             string command = tuple[0];
                             string obj = tuple[1];
-                            ProcessData(command, obj);
+                            if (command != "PING")
+                            {
+                                ProcessData(command, obj);
+                            }
                         }
                         catch {/* If only half of the next message was received this will be triggered, however no action is required */ }
                     }
@@ -147,9 +151,10 @@ namespace Tetris.Logic
                     socket.Receive(buffer, 0, socket.Available, SocketFlags.None);
                     return string.Join("", buffer.Select((bb) => (char)bb));
                 }
-                catch { 
-                    /* this can happen when another thread reads the buffer first so  it is empty when this one reads it */ 
-                    return ""; 
+                catch
+                {
+                    /* this can happen when another thread reads the buffer first so  it is empty when this one reads it */
+                    return "";
                 }
             });
         }
@@ -189,7 +194,7 @@ namespace Tetris.Logic
         {
             if (Socket != null)
                 Socket.Close();
-            if (handler!=null && handler.Socket != null)
+            if (handler != null && handler.Socket != null)
                 handler.Socket.Close();
         }
     }

@@ -29,8 +29,15 @@ namespace Tetris.Logic
             listenForIncoming = true;
             Task.Run(() =>
             {
+                int counter = 0;
                 while (listenForIncoming)
                 {
+                    if (counter > 100)
+                    {
+                        // About a second has passed, let's ping the other person to see if we're still connected
+                        Ping();
+                        counter = 0;
+                    }
                     lock (Socket)
                     {
                         if (!Socket.Connected)
@@ -45,8 +52,14 @@ namespace Tetris.Logic
                         }
                     }
                     System.Threading.Thread.Sleep(10);
+                    counter++;
                 }
             });
+        }
+
+        private void Ping()
+        {
+            WriteData("PING", null);
         }
 
         /// <summary>
@@ -66,8 +79,10 @@ namespace Tetris.Logic
         {
             try
             {
-                Socket.Send((command + "\a\a\a" + JsonConvert.SerializeObject(o) + (char)4).ToCharArray().Select((val) => (byte)val).ToArray());
-            } catch (Exception) { /* Connection was closed */}
+                string stringified = (o == null) ? "" : JsonConvert.SerializeObject(o);
+                Socket.Send((command + "\a\a\a" + stringified + (char)4).ToCharArray().Select((val) => (byte)val).ToArray());
+            }
+            catch (Exception) { /* Connection was closed */}
         }
 
         public class SocketEventArgs : EventArgs

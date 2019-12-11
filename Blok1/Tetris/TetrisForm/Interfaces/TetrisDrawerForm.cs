@@ -22,8 +22,14 @@ namespace TetrisForm.Interfaces
         /// </summary>
         public PictureBox NextBlockPictureBox { get; }
 
+        /// <summary>
+        /// The picturebox in which we will draw the online game
+        /// </summary>
         public PictureBox OnlineGamePictureBox { get; }
 
+        /// <summary>
+        /// The label with the score from the remote game
+        /// </summary>
         public Label OnlineScoreLabel { get; }
 
         /// <summary>
