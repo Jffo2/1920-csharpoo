@@ -1,0 +1,58 @@
+C# OO - zelfevaluatie
+=========================================
+
+Naam:	Jorn Schampheleer
+Datum:  11/12/2019
+Volgnummer blok: r0749836
+
+Onderwerp: Tetris, evaluatie 2
+
+Stand van zaken: 
+
+Als vervolg van mijn project heb ik een simpele online mogelijkheid toegevoegd aan mijn tetris.
+Het is nu mogelijk om te connecteren met een andere computer en het spel van een andere speler te zien.
+
+Sterke punten:
+
+De code werkt, ik werkte voor de eerste keer met sockets en vind het een sterk punt dat ik deze aan de praat gekregen heb.
+
+Aandachtspunten in je aanpak:
+
+Ik heb soms de gewoonte te typen wat ik denk, dit kan leiden tot code die niet mooi oogt.
+
+
+Leerdoelen:
+
+Exceptions: inzicht
+- Ik gebruik een try... catch statement op verschillende plaatsen in mijn code onder andere in OnlineGame.cs op lijn 68
+  Ik gebruik hier een try... catch om een server te starten op een bepaalde poort, als deze poort echter reeds in gebruik
+  is dan kan ik in de catch een nieuwe poort toewijzen en opnieuw proberen.
+- Ik werp exceptions op waar handig bijvoorbeeld in TetrisGame.cs lijn 76,
+
+Properties: inzicht
+- Full property (private backing field) ik gebruik dit bijvoorbeeld in TetrisGame.cs lijn 28
+- Auto implemented property gebruik ik bijvoorbeeld in Block.cs op lijn 47
+- Auto implemented property met access modifiers gebruik ik bijvoorbeeld in TetrisGame.cs op lijn 54
+
+Architectuur van een toepassing - Meerlagenmodel: inzicht
+- Ik maak gebruik van meerdere lagen, alsook van een klassebibliotheek (Tetris)
+- Ik gebruik dependency injection doorheen mijn project maar vooral in TetrisGame.cs
+
+Klassen - klassehiërarchie: inzicht
+- Klasse delcaratie, constructoren. Ik kan klassen definiëren met private velden, properties, methodes en een default constructor.
+  Het beste voorbeeld van zo'n klasse is TetrisGame.cs. Ik kan ook klassen definiëren met meerdere constructoren zoals in Block.cs
+  op lijn 64 en 75.
+- Klasse hiërarchie
+  - Ik kan een klasse declareren afgeleid van een andere basisklasse, zoals TetrisGame afgeleid is van OnlineGame
+  - Ik kan in een afgeleide klasse methoden uit de basisklasse overriden, zoals in TetrisGame op lijn 402
+  - Ik kan in een constructor van een afgeleide klasse de constructor van een basisklasse aanroepen zoals in TetrisGame op lijn 71
+  - Ik kan een abstracte klasse declareren en daarvan een instantieerbare klasse afleiden zoals TetrisGame afgeleid is van     OnlineGame
+Concurrente programmatie: inzicht
+- Ik kan een task starten, wachten tot die is afgewerkt en het resultaat ervan gebruiken zoals in OnlingeGame lijn 109
+- Ik kan vanuit een Task wijzigingen aanbrengen in de UI zoals in Form1.cs lijn 58
+Concurrente programmatie: inzicht
+- Lock: Ik gebruik een lock statement in TetrisGame lijn 336 en 339 zodat het bord niet geupdate wordt terwijl ik er data uit lees
+(Asynchronous programming: async...await): inzicht
+- Ik gebruik async...await in OnlineGame lijn 109 naar een methode op lijn 144
+Code Review
+- Ik maakte de gevraagde code review
